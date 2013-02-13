@@ -1,0 +1,30 @@
+@import url(http://fonts.googleapis.com/css?family=Galindo);
+
+body {
+	background:url("pictures/chrisgreenscreen.png");
+	background-size:1700px 1700px;
+	background-attachment:fixed;
+}
+header {
+	font-family:galindo;
+	background:transparent url(pictures/chrisgreenscreen.png) no-repeat;
+	padding:20px 0px 30px 200px;
+}
+header a {
+	display:inline-block;
+	color:#000;
+	-webkit-transition:color 1s;
+}
+header a:hover{
+	color:green;
+	-webkit-transform:rotate(4deg);
+	text-decoration:none;
+}
+section {
+	color:#37FF00;
+	border:2px solid #31781E;
+	padding:10px;
+	border-radius:10px;
+	background-color:#103B04;
+	opacity:0.7;
+}
