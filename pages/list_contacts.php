@@ -36,8 +36,8 @@ while(($contact = $results->fetch_assoc()) != null) {
 	if($contact_phone != null){
 	$phone = format_phone($contact_phone);}
 	else {$phone = '-';}
-	echo "<tr><td>$contact_firstname</td><td>$contact_lastname</td><td><a href=\"mailto:$contact_email\"> $contact_email</a></td><td>$phone</td><td><a href=\"form_edit_contact.php?id=$contact_id\" >Edit</a></td>";
-	echo "<td><form style=\"display:inline;\" method=\"post\" action = \"delete.php\"><input type=\"hidden\" name=\"id\" value=\"$contact_id\"/><input type=\"submit\" value=\"delete\"/></form></td></tr>";
+	echo "<tr><td>$contact_firstname</td><td>$contact_lastname</td><td><a href=\"mailto:$contact_email\"> $contact_email</a></td><td>$phone</td><td><a href=\"./?p=form_edit_contact&id=$contact_id\" >Edit</a></td>";
+	echo "<td><form style=\"display:inline;\" method=\"post\" action = \"actions/delete.php\"><input type=\"hidden\" name=\"id\" value=\"$contact_id\"/><input type=\"submit\" value=\"delete\"/></form></td></tr>";
 }
 echo '</table>';
 //close database connection
