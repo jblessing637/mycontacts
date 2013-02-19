@@ -2,9 +2,9 @@
 session_start();
 $required = array (
 	'contact_firstname',
-		'contact_lastname',
-		'contact_email',
-		'contact_phone',
+	'contact_lastname',
+	'contact_email',
+	'contact_phone',
 );
 require('../config/app.php');
 require('../lib/functions.php');
@@ -25,6 +25,7 @@ foreach($required as $r) {
 		die();
 	}
 }
+if(is_numeric($contact_phone)){
 //at this point, as a result of 'extract', we can refer to, for example, the submitted last name as $contact_lastname instead of $_POST['contact_lastname']
 //connect to the DB
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -39,4 +40,16 @@ $_SESSION['message']= array(
 		'text'=>"<strong>$contact_firstname $contact_lastname</strong> has been added to your contacts",
 );
 //redirect to list
-header('Location:../?p=list_contacts');
+header('Location:../?p=list_contacts');}
+else{
+	//store message into session
+	$_SESSION['message']= array(
+			'type'=>'danger',
+			'text'=>'The Phone Number is supposed to be a number',
+	);
+	//store form data into session data
+	$_SESSION['POST']= $_POST;
+	//set location header
+	header('Location:../?p=form_add_contact');
+}
+?>

@@ -22,6 +22,7 @@ foreach($required as $r) {
 		die();
 	}
 }
+if(is_numeric($contact_phone)){
 //connect to the DB
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 //execute query
@@ -34,5 +35,16 @@ $_SESSION['message']= array(
 		'type'=>'success',
 		'text'=>"<strong>$contact_firstname $contact_lastname's</strong> information has been changed",
 );
-header('Location:../?p=list_contacts');
+header('Location:../?p=list_contacts');}
+else{
+	//store message into session
+	$_SESSION['message']= array(
+			'type'=>'danger',
+			'text'=>'The Phone Number is supposed to be a number',
+	);
+	//store form data into session data
+	$_SESSION['POST']= $_POST;
+	//set location header
+	header("Location:../?p=form_edit_contact&id={$_POST['contact_id']}");
+}
 ?>
