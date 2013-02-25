@@ -24,6 +24,23 @@
 			<?php echo input('contact_phone','5555555555');?>
 		</div>
 	</div>
+	<div class="control-group">
+	<label class="control-label" for="contact_group">Group</label>
+	<div class="controls">
+	<select name="contact_group">
+	<option value="0">Select a Group</option>
+	<?php 
+	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	//query groups table
+	$sql = "SELECT * FROM groups";
+	$results=$conn->query($sql);
+	while(($group = $results->fetch_assoc()) != null){
+		extract($group);
+		echo "<option value=\"$group_id\">$group_name</option>";
+	}?>
+	</select>
+	</div>
+	</div>
 	<div class="form-actions">
 		<button type="submit" class="btn btn-primary">
 			<i class="icon-plus-sign icon-white"></i> Add Contact

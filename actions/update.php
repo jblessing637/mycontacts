@@ -22,11 +22,11 @@ foreach($required as $r) {
 		die();
 	}
 }
-if(is_numeric($contact_phone)){
+if(is_numeric($contact_phone) && strlen($contact_phone)==10){
 //connect to the DB
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 //execute query
-$sql = "UPDATE contacts SET contact_firstname='{$_POST['contact_firstname']}', contact_lastname='{$_POST['contact_lastname']}', contact_email='{$_POST['contact_email']}', contact_phone='{$_POST['contact_phone']}' WHERE contact_id='{$_POST['contact_id']}'";
+$sql = "UPDATE contacts SET contact_firstname='{$_POST['contact_firstname']}', contact_lastname='{$_POST['contact_lastname']}', contact_email='{$_POST['contact_email']}', contact_phone='{$_POST['contact_phone']}', group_id='{$_POST['contact_group']}' WHERE contact_id='{$_POST['contact_id']}'";
 $conn->query($sql);
 //close connection
 $conn->close();
@@ -40,7 +40,7 @@ else{
 	//store message into session
 	$_SESSION['message']= array(
 			'type'=>'danger',
-			'text'=>'The Phone Number is supposed to be a number',
+			'text'=>'The Phone Number is supposed to be a phone number with the area code',
 	);
 	//store form data into session data
 	$_SESSION['POST']= $_POST;
