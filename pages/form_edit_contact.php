@@ -7,6 +7,7 @@ $results = $conn->query($sql);
 //store the values into variable
 $contact = $results->fetch_assoc();
 extract($contact);
+$contact_group=$group_id;
 //close the connection
 $conn->close();?>
 <form action="actions/update.php" method="post">
@@ -26,7 +27,7 @@ $conn->close();?>
 	<label class="control-label" for="contact_group">Group</label>
 	<div class="controls">
 	<select name="contact_group">
-	<option value="0">Select a Group</option>
+	<option value="0">Select a group</option>
 	<?php 
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	//query groups table
@@ -34,7 +35,12 @@ $conn->close();?>
 	$results=$conn->query($sql);
 	while(($group = $results->fetch_assoc()) != null){
 		extract($group);
-		echo "<option value=\"$group_id\">$group_name</option>";
+		if($contact_group==$group_id){
+			$selected='selected="selected"';
+		}else {
+			$selected='';
+		}
+		echo "<option $selected value=\"$group_id\">$group_name</option>";
 	}?>
 	</select>
 	</div>

@@ -69,4 +69,24 @@ function radio($name, $options) {
 	}
 	return $radio;
 }
+/**
+ * query the provided table for all rows, sorted by name, using the fields table_id and table_name
+ * @param string $table name of DB table
+ * @param string $default_value value of first option
+ * 
+ */
+function get_options($table, $default_value=0, $default_name='Select'){
+	$id_field = $table.'_id';
+	$name_field=$table.'_name';
+	$conn = connect();
+	
+	$sql = "SELECT {$table}_id, {$table}_name FROM {$table}s ORDER BY $name_field";
+	$results = $conn-> query($sql);
+	while(($row = $results->fetch_assoc()) !=null){
+		$key=$row[$id_field];
+		$value=$row[$name_field];
+		$options[$key]=$value;
+	}
+	$conn->close();
+}
 ?>

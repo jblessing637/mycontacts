@@ -28,7 +28,7 @@
 	<label class="control-label" for="contact_group">Group</label>
 	<div class="controls">
 	<select name="contact_group">
-	<option value="0">Select a Group</option>
+	<option value="0">Select a group</option>
 	<?php 
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	//query groups table
@@ -36,7 +36,13 @@
 	$results=$conn->query($sql);
 	while(($group = $results->fetch_assoc()) != null){
 		extract($group);
-		echo "<option value=\"$group_id\">$group_name</option>";
+		if($_SESSION['POST']['contact_group']==$group_id){
+			$selected='selected="selected"';
+			unset($_SESSION['POST']['contact_group']);
+		}else {
+			$selected='';
+		}
+		echo "<option $selected value=\"$group_id\">$group_name</option>";
 	}?>
 	</select>
 	</div>
