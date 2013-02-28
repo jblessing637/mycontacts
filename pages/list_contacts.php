@@ -1,5 +1,14 @@
 <h2>Contacts</h2>
 <?php
+if(isset($_GET['q']) && $_GET['q']!='') {
+	$where = "WHERE contact_lastname LIKE '%{$_GET['q']}%' OR contact_firstname LIKE '%{$_GET['q']}%'";
+	$search_message = "<span class=\"filter label\">Contacts with Name containing \"{$_GET['q']}\"</span>";
+	$show_all = '<a href="./?p=list_contacts"><button class="btn btn-success pull-right">Show all contacts <img src="pictures/chrisgreenscreen.png" alt="chris" width="25px" height="25px" /></button></a><br/>';
+}else {
+	$where='';
+	$search_message='';
+	$show_all='';
+}
 //connect to database
 //new sqli(host, user, password, db name)
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -9,15 +18,22 @@ if(isset($_GET['sort']) && $_GET['sort']!=''){
 }else {
 	$orderby='ORDER BY contact_lastname, contact_firstname';
 }
-$sql = "SELECT * FROM contacts LEFT JOIN groups ON contacts.group_id=groups.group_id $orderby";
+$sql = "SELECT * FROM contacts LEFT JOIN groups ON contacts.group_id=groups.group_id $where $orderby";
 $results=$conn->query($sql);
+echo $search_message;
+echo $show_all;
 //if there is an error on sql query display error and kill script
 if($conn->errno >0){
 	echo $conn->error;
 	die();
 }
 //loop over contacts and display them
-echo '<table class="table"><tr><th><a href="./?p=list_contacts&sort=firstname">First Name</a></th><th><a href="./?p=list_contacts&sort=lastname">Last Name</a></th><th>Email</th><th>Phone</th><th>Group</th><th>Edit</th><th>Delete</th></tr>';
+if(isset($_GET['q']) && $_GET['q']!='') {
+	echo "<table class=\"table\"><tr><th><a href=\"./?p=list_contacts&sort=firstname&q={$_GET['q']}\">First Name</a></th><th><a href=\"./?p=list_contacts&sort=lastname&q={$_GET['q']}\">Last Name</a></th><th><a href=\"./?p=list_contacts&sort=email&q={$_GET['q']}\">Email</th><th>Phone</th><th>Group</th><th>Edit</th><th>Delete</th></tr>";
+}else {
+	echo "<table class=\"table\"><tr><th><a href=\"./?p=list_contacts&sort=firstname\">First Name</a></th><th><a href=\"./?p=list_contacts&sort=lastname\">Last Name</a></th><th><a href=\"./?p=list_contacts&sort=email\">Email</th><th>Phone</th><th>Group</th><th>Edit</th><th>Delete</th></tr>";
+	
+}
 while(($contact = $results->fetch_assoc()) != null) {
 	extract($contact);
 	if($contact_phone != null){

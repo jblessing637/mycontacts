@@ -31,3 +31,9 @@ section {
 section a {
 	color:#37FF00;
 }
+nav .input-append {
+	margin-top:10px;
+}
+nav .input-append button {
+	height:inherit !important;
+}

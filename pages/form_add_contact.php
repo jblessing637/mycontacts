@@ -49,8 +49,8 @@
 	</div>
 	<div class="form-actions">
 		<button type="submit" class="btn btn-primary">
-			<i class="icon-plus-sign icon-white"></i> Add Contact
+			<img src="pictures/chrisgreenscreen.png" alt="chris" width="25px" height="25px" /> Add Contact
 		</button>
-		<button type="button" class="btn" onclick="window.history.go(-1)">Cancel</button>
+		<button type="button" class="btn" onclick="window.history.go(-1)"><img src="pictures/chrisgreenscreen.png" alt="chris" width="25px" height="25px" /> Cancel</button>
 	</div>
 </form>

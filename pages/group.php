@@ -6,11 +6,16 @@ $group = $results->fetch_assoc();
 ?>
 <h2><?php echo $group['group_name'];?></h2>
 <?php
+if(isset($_GET['sort']) && $_GET['sort']!=''){
+	$orderby="ORDER BY contact_{$_GET['sort']}";
+}else {
+	$orderby='ORDER BY contact_lastname, contact_firstname';
+}
 //connect to database
 //new sqli(host, user, password, db name)
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 //read (select) contacts from database
-$sql= "SELECT * FROM contacts WHERE group_id=$id";
+$sql= "SELECT * FROM contacts WHERE group_id=$id $orderby";
 $results=$conn->query($sql);
 //if there is an error on sql query display error and kill script
 if($conn->errno >0){
@@ -18,7 +23,7 @@ if($conn->errno >0){
 	die();
 }
 //loop over contacts and display them
-echo '<table class="table"><tr><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone</th><th>Edit</th><th>Delete</th></tr>';
+echo "<table class=\"table\"><tr><th><a href=\"./?p=group&sort=firstname&id=$id\">First Name</a></th><th><a href=\"./?p=group&sort=lastname&id=$id\">Last Name</a></th><th><a href=\"./?p=group&sort=email&id=$id\">Email</a></th><th>Phone</th><th>Edit</th><th>Delete</th></tr>";
 while(($contact = $results->fetch_assoc()) != null) {
 	extract($contact);
 	if($contact_phone != null){

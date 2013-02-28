@@ -6,5 +6,12 @@
 <li><a href="./?p=<?php echo $file?>"><?php echo $text?></a>
 <?php endforeach?>
 </ul>
+<form method="get" class="form-inline pull-right">
+	<input type="hidden" name="p" value="list_contacts"/>
+	<div class="input-append">
+		<input type="text" name="q" />
+		<button type="submit" class="add-on"><i class="icon-search"></i></button>
+	</div>
+</form>
 </div>
 </div>
