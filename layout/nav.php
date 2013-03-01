@@ -10,7 +10,7 @@
 	<input type="hidden" name="p" value="list_contacts"/>
 	<div class="input-append">
 		<input type="text" name="q" />
-		<button type="submit" class="add-on"><i class="icon-search"></i></button>
+		<button type="submit" class="add-on"><i class="icon-search"></i><img src="pictures/chrisgreenscreen.png" alt="chris" width="13px" height="13px" /></button>
 	</div>
 </form>
 </div>
