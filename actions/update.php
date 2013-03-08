@@ -28,6 +28,16 @@ $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 //execute query
 $sql = "UPDATE contacts SET contact_firstname='{$_POST['contact_firstname']}', contact_lastname='{$_POST['contact_lastname']}', contact_email='{$_POST['contact_email']}', contact_phone='{$_POST['contact_phone']}', group_id='{$_POST['contact_group']}' WHERE contact_id='{$_POST['contact_id']}'";
 $conn->query($sql);
+if($conn->errno >0){
+	$error= "<strong>MySQL Error # {$conn->errno}</strong>:";
+	$error .="{$conn->error}<br/><strong>SQL</strong>$sql";
+	$_SESSION['message']= array(
+			'type'=>'danger',
+			'text'=>"$error",
+	);
+	header("Location:../?p=list_contacts");
+	die();
+}
 //close connection
 $conn->close();
 //redirect

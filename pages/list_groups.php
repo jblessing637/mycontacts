@@ -6,7 +6,16 @@ $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 //read (select) contacts from database
 $sql = "SELECT groups.*, COUNT(contact_id) AS num_contacts FROM groups LEFT JOIN contacts ON groups.group_id=contacts.group_id GROUP BY groups.group_id ORDER BY num_contacts DESC";
 $results=$conn->query($sql);
-
+if($conn->errno >0){
+	$error= "<strong>MySQL Error # {$conn->errno}</strong>:";
+	$error .="{$conn->error}<br/><strong>SQL</strong>$sql";
+	$_SESSION['message']= array(
+			'type'=>'danger',
+			'text'=>"$error",
+	);
+	header("Location:../?p=list_contacts");
+	die();
+}
 echo '<table class="table"><tr><th>Group Name</th><th>Number of Members</th><th>Edit</th><th>Delete</th></tr>';
 while(($group = $results->fetch_assoc()) != null) {
 	extract($group);

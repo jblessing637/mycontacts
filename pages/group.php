@@ -2,6 +2,16 @@
 extract($_GET);
 $sql = "SELECT group_name FROM groups WHERE group_id=$id";
 $results=$conn->query($sql);
+if($conn->errno >0){
+	$error= "<strong>MySQL Error # {$conn->errno}</strong>:";
+	$error .="{$conn->error}<br/><strong>SQL</strong>$sql";
+	$_SESSION['message']= array(
+			'type'=>'danger',
+			'text'=>"$error",
+	);
+	header("Location:../?p=list_contacts");
+	die();
+}
 $group = $results->fetch_assoc();
 ?>
 <h2><?php echo $group['group_name'];?></h2>
@@ -19,7 +29,13 @@ $sql= "SELECT * FROM contacts WHERE group_id=$id $orderby";
 $results=$conn->query($sql);
 //if there is an error on sql query display error and kill script
 if($conn->errno >0){
-	echo $conn->error;
+	$error= "<strong>MySQL Error # {$conn->errno}</strong>:";
+	$error .="{$conn->error}<br/><strong>SQL</strong>$sql";
+	$_SESSION['message']= array(
+			'type'=>'danger',
+			'text'=>"$error",
+	);
+	header("Location:../?p=list_contacts");
 	die();
 }
 //loop over contacts and display them

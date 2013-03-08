@@ -18,6 +18,16 @@ if(!isset($_POST['group_name']) || $_POST['group_name'] == ''){
 	//execute query
 	$sql = "UPDATE groups SET group_name='{$_POST['group_name']}' WHERE group_id='{$_POST['group_id']}'";
 	$conn->query($sql);
+	if($conn->errno >0){
+		$error= "<strong>MySQL Error # {$conn->errno}</strong>:";
+		$error .="{$conn->error}<br/><strong>SQL</strong>$sql";
+		$_SESSION['message']= array(
+				'type'=>'danger',
+				'text'=>"$error",
+		);
+		header("Location:../?p=list_contacts");
+		die();
+	}
 	//close connection
 	$conn->close();
 	//redirect

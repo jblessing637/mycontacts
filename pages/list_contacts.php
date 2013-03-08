@@ -20,13 +20,19 @@ if(isset($_GET['sort']) && $_GET['sort']!=''){
 }
 $sql = "SELECT * FROM contacts LEFT JOIN groups ON contacts.group_id=groups.group_id $where $orderby";
 $results=$conn->query($sql);
+if($conn->errno >0){
+	$error= "<strong>MySQL Error # {$conn->errno}</strong>:";
+	$error .="{$conn->error}<br/><strong>SQL</strong>$sql";
+	$_SESSION['message']= array(
+			'type'=>'danger',
+			'text'=>"$error",
+	);
+	header("Location:../?p=list_contacts");
+	die();
+}
 echo $search_message;
 echo $show_all;
 //if there is an error on sql query display error and kill script
-if($conn->errno >0){
-	echo $conn->error;
-	die();
-}
 //loop over contacts and display them
 if(isset($_GET['q']) && $_GET['q']!='') {
 	echo "<table class=\"table\"><tr><th><a href=\"./?p=list_contacts&sort=firstname&q={$_GET['q']}\">First Name</a></th><th><a href=\"./?p=list_contacts&sort=lastname&q={$_GET['q']}\">Last Name</a></th><th><a href=\"./?p=list_contacts&sort=email&q={$_GET['q']}\">Email</th><th>Phone</th><th>Group</th><th>Edit</th><th>Delete</th></tr>";

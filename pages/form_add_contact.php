@@ -34,6 +34,16 @@
 	//query groups table
 	$sql = "SELECT * FROM groups";
 	$results=$conn->query($sql);
+	if($conn->errno >0){
+		$error= "<strong>MySQL Error # {$conn->errno}</strong>:";
+		$error .="{$conn->error}<br/><strong>SQL</strong>$sql";
+		$_SESSION['message']= array(
+				'type'=>'danger',
+				'text'=>"$error",
+		);
+		header("Location:../?p=list_contacts");
+		die();
+	}
 	while(($group = $results->fetch_assoc()) != null){
 		extract($group);
 		if($_SESSION['POST']['contact_group']==$group_id){
