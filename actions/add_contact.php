@@ -32,6 +32,16 @@ $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 //execute query
 $sql = "INSERT INTO contacts (contact_firstname, contact_lastname, contact_email, contact_phone, group_id) VALUES ('$contact_firstname', '$contact_lastname', '$contact_email', '$contact_phone', $contact_group)" ;
 $conn->query($sql);
+if($conn->errno >0){
+	$error= "<strong>MySQL Error # {$conn->errno}</strong>:";
+	$error .="{$conn->error}<br/><strong>SQL</strong>$sql";
+	$_SESSION['message']= array(
+			'type'=>'danger',
+			'text'=>"$error",
+	);
+	header("Location:../?p=list_contacts");
+	die();
+}
 //close DB connenction
 $conn->close();
 //store message into session
